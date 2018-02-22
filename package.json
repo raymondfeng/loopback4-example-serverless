@@ -1,0 +1,51 @@
+{
+  "name": "loopback4-example-serverless",
+  "version": "1.0.0",
+  "description": "LoopBack 4 Serverless Example",
+  "keywords": [
+    "loopback-example",
+    "loopback"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "build": "lb-tsc es2017",
+    "build:watch": "lb-tsc es2017 --watch",
+    "clean": "lb-clean",
+    "lint": "npm run prettier:check && npm run tslint",
+    "lint:fix": "npm run prettier:fix && npm run tslint:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
+    "prettier:check": "npm run prettier:cli -- -l",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "tslint": "lb-tslint",
+    "tslint:fix": "npm run tslint -- --fix",
+    "pretest": "npm run clean && npm run build",
+    "test": "lb-mocha \"DIST/test\"",
+    "posttest": "npm run lint",
+    "prepublishOnly": "npm run test"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "",
+  "license": "MIT",
+  "files": [
+    "README.md",
+    "index.js",
+    "index.d.ts",
+    "dist"
+  ],
+  "dependencies": {
+    "@loopback/metadata": "^0.1.0",
+    "@loopback/context": "^0.1.0"
+  },
+  "devDependencies": {
+    "@loopback/build": "^0.1.0",
+    "@loopback/testlab": "^0.1.0",
+    "@types/mocha": "^2.2.43",
+    "mocha": "^4.0.1",
+    "source-map-support": "^0.5.2"
+  }
+}

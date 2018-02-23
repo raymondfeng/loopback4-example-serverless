@@ -62,3 +62,7 @@ api-docs/
 
 # Transpiled JavaScript files from Typescript
 dist/
+
+# Generated bundle.js by webpack
+webpack/
+

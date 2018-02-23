@@ -2,12 +2,18 @@ import {Context, invokeMethod, isPromise} from '@loopback/context';
 import {ServerlessController} from './controllers/serverless.controller';
 import {getActionMapping} from './decorators/action';
 
+/**
+ * Create a `Context` as the LoopBack 4 IoC Container
+ */
 function setupContext() {
   const ctx = new Context();
   ctx.bind('controllers.serverless').toClass(ServerlessController);
   return ctx;
 }
 
+/**
+ * Populate action params as bindings of the LoopBack 4 context
+ */
 // tslint:disable-next-line:no-any
 function bindParams(ctx: Context, params?: {[name: string]: any}) {
   ctx.bind('params').to(params);
@@ -19,7 +25,7 @@ function bindParams(ctx: Context, params?: {[name: string]: any}) {
 }
 
 /**
- * Invoke an action by name and optional parameters
+ * Invoke an action/command by name and optional parameters
  * @param actionName Action name
  * @param params Parameter object with name/value pairs
  */
@@ -36,7 +42,7 @@ export async function invokeAction<T>(actionName: string, params?: T) {
 }
 
 /**
- * Invoke an action synchronously by name and optional parameters
+ * Invoke an action/command synchronously by name and optional parameters
  * @param actionName Action name
  * @param params Parameter object with name/value pairs
  */

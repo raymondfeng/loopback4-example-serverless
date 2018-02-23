@@ -2,14 +2,21 @@ import {inject} from '@loopback/context';
 import {action} from '../decorators/action';
 
 /**
- * A controller for serverless actions
+ * A demo controller for serverless actions
  */
 export class ServerlessController {
+  /**
+   * The controller can be optionally instantiated with dependency injections
+   * by decorating the constructor parameters. Such values can be resolved from
+   * the context for an invocation by the serverless container.
+   */
   constructor() {}
 
   /**
-   * An action without accepting any parameters
+   * An action without any parameters
    */
+  // mark the method as an action or command
+  // TBD: multiple actions per controller?
   @action()
   helloWorld() {
     return 'Hello, world!';
@@ -17,7 +24,7 @@ export class ServerlessController {
 
   /**
    * An action takes an optional parameter named `name`
-   * @param name
+   * @param name User name
    */
   @action()
   hello(

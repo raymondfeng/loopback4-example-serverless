@@ -11,9 +11,9 @@
     "node": ">=8"
   },
   "scripts": {
-    "build": "lb-tsc es2017",
+    "build": "lb-tsc es2017 && webpack",
     "build:watch": "lb-tsc es2017 --watch",
-    "clean": "lb-clean",
+    "clean": "lb-clean dist api-docs webpack",
     "lint": "npm run prettier:check && npm run tslint",
     "lint:fix": "npm run prettier:fix && npm run tslint:fix",
     "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
@@ -38,14 +38,15 @@
     "dist"
   ],
   "dependencies": {
-    "@loopback/metadata": "^0.1.0",
-    "@loopback/context": "^0.1.0"
+    "@loopback/context": "^0.1.1",
+    "@loopback/metadata": "^0.1.1"
   },
   "devDependencies": {
-    "@loopback/build": "^0.1.0",
-    "@loopback/testlab": "^0.1.0",
+    "@loopback/build": "^0.1.1",
+    "@loopback/testlab": "^0.1.1",
     "@types/mocha": "^2.2.43",
     "mocha": "^4.0.1",
-    "source-map-support": "^0.5.2"
+    "source-map-support": "^0.5.2",
+    "webpack": "^3.11.0"
   }
 }

@@ -1,15 +1,15 @@
 ROOTDIR=`dirname $0`
 
-WEBPACKDIR=$ROOTDIR/../webpack
+DEPLOYDIR=$ROOTDIR/../deploy
 
-if [ ! -f $WEBPACKDIR/bundle.js ]; then
+if [ ! -f $DEPLOYDIR/bundle.js ]; then
   # Run build
   pushd $ROOTDIR/..
   npm run build
   popd
 fi
 
-cp $WEBPACKDIR/bundle.js $WEBPACKDIR/action.js
+cp $DEPLOYDIR/bundle.js $DEPLOYDIR/action.js
 
 # Add the main function to the webpack bundle
 (cat <<MAIN_FUNCTION
@@ -24,7 +24,7 @@ async function main(params) {
 }
 
 MAIN_FUNCTION
-) >> $WEBPACKDIR/action.js
+) >> $DEPLOYDIR/action.js
 
 # Create/update an action named `lb-hello`
-bx wsk action update lb-hello $WEBPACKDIR/action.js --kind nodejs:8
+bx wsk action update lb-hello $DEPLOYDIR/action.js --kind nodejs:8

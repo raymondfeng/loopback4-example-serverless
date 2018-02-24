@@ -39,7 +39,9 @@
   ],
   "dependencies": {
     "@loopback/context": "^0.1.1",
-    "@loopback/metadata": "^0.1.1"
+    "@loopback/metadata": "^0.1.1",
+    "@types/aws-lambda": "0.0.32",
+    "@types/express": "^4.11.1"
   },
   "devDependencies": {
     "@loopback/build": "^0.1.1",

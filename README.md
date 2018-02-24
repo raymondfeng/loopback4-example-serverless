@@ -1,6 +1,8 @@
 # loopback4-example-serverless
 
-PoC to leverage TypeScript, LoopBack 4 Dependency Injection, and Webpack to create serverless actions.
+PoC to leverage TypeScript, LoopBack 4 Dependency Injection, and Webpack to create serverless functions/actions.
+
+![LoopBack 4 Serverless Actions](lb4-serverless.png)
 
 ## Create a controller as serverless actions
 

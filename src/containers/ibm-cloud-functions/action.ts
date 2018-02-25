@@ -1,6 +1,3 @@
-export interface Parameters {
-  // tslint:disable-next-line:no-any
-  [name: string]: any;
-}
+import {Parameters} from './types';
 
-async function main(params: Parameters) {}
+export async function main(params: Parameters) {}

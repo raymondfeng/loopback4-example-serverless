@@ -1,6 +1,12 @@
 import {Context, invokeMethod, isPromise} from '@loopback/context';
 import {ServerlessController} from './controllers/serverless.controller';
 import {getActionMapping} from './decorators/action';
+import * as qs from 'querystring';
+
+import {
+  Parameters,
+  WebParameters,
+} from './containers/ibm-cloud-functions/types';
 
 /**
  * Create a `Context` as the LoopBack 4 IoC Container
@@ -14,13 +20,28 @@ function setupContext() {
 /**
  * Populate action params as bindings of the LoopBack 4 context
  */
-// tslint:disable-next-line:no-any
-function bindParams(ctx: Context, params?: {[name: string]: any}) {
+function bindParams(ctx: Context, params?: Parameters) {
   ctx.bind('params').to(params);
   if (params != null) {
     for (const p in params) {
       ctx.bind(p).to(params[p]);
     }
+    if (params && params.__ow_method) {
+      bindWebParams(ctx, params as WebParameters);
+    }
+  }
+}
+
+function bindWebParams(ctx: Context, params?: WebParameters) {
+  if (params && params.__ow_method) {
+    ctx.bind('web.method').to(params.__ow_method);
+    ctx.bind('web.path').to(params.__ow_path);
+    ctx.bind('web.body').to(params.__ow_body);
+    ctx.bind('web.headers').to(params.__ow_headers);
+    if (params.__ow_query) {
+      ctx.bind('web.query').to(qs.parse(params.__ow_query));
+    }
+    ctx.bind('web.user').to(params.__ow_user);
   }
 }
 

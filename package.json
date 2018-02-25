@@ -11,9 +11,10 @@
     "node": ">=8"
   },
   "scripts": {
-    "build": "lb-tsc es2017 && webpack",
+    "build": "lb-tsc es2017",
+    "build:webpack": "webpack",
     "build:watch": "lb-tsc es2017 --watch",
-    "clean": "lb-clean dist api-docs webpack",
+    "clean": "lb-clean dist api-docs deploy",
     "lint": "npm run prettier:check && npm run tslint",
     "lint:fix": "npm run prettier:fix && npm run tslint:fix",
     "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
@@ -49,6 +50,7 @@
     "@types/mocha": "^2.2.43",
     "mocha": "^4.0.1",
     "source-map-support": "^0.5.2",
-    "webpack": "^3.11.0"
+    "webpack": "^4.0.0",
+    "webpack-cli": "^2.0.9"
   }
 }

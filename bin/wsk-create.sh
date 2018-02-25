@@ -1,12 +1,12 @@
-ROOTDIR=`dirname $0`
+ROOTDIR=`dirname $0`/..
 
-DEPLOYDIR=$ROOTDIR/../deploy
+DEPLOYDIR=$ROOTDIR/deploy
 
 if [ ! -f $DEPLOYDIR/bundle.js ]; then
   # Run build
-  pushd $ROOTDIR/..
-  npm run build
-  popd
+  pushd $ROOTDIR >/dev/null
+  npm run build && npm run build:webpack
+  popd >/dev/null
 fi
 
 cp $DEPLOYDIR/bundle.js $DEPLOYDIR/action.js

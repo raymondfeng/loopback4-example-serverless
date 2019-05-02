@@ -1,20 +1,50 @@
-import {Context, invokeMethod, isPromise} from '@loopback/context';
-import {ServerlessController} from './controllers/serverless.controller';
-import {getActionMapping} from './decorators/action';
+import {
+  Context,
+  invokeMethod,
+  isPromiseLike,
+  createBindingFromClass,
+  Constructor,
+  ValueOrPromise,
+} from '@loopback/context';
 import * as qs from 'querystring';
-
 import {
   Parameters,
   WebParameters,
 } from './containers/ibm-cloud-functions/types';
+import {ServerlessController} from './controllers/serverless.controller';
+import {getActionMapping} from './decorators/action';
 
 /**
  * Create a `Context` as the LoopBack 4 IoC Container
  */
 function setupContext() {
   const ctx = new Context();
-  ctx.bind('controllers.serverless').toClass(ServerlessController);
+  registerController(ctx, ServerlessController);
   return ctx;
+}
+
+function registerController(
+  ctx: Context,
+  controllerClass: Constructor<unknown>,
+) {
+  const binding = createBindingFromClass(controllerClass);
+  ctx.add(binding);
+  return binding;
+}
+
+function getController<T>(
+  ctx: Context,
+  controllerClass: Constructor<T>,
+): ValueOrPromise<T> {
+  const bindings = ctx.find<T>(
+    b => b.tagMap['serverless'] && b.valueConstructor === controllerClass,
+  );
+  if (!bindings.length) {
+    throw new Error(
+      `No ${controllerClass.name} is found in context ${ctx.name}`,
+    );
+  }
+  return ctx.getValueOrPromise(bindings[0].key) as ValueOrPromise<T>;
 }
 
 /**
@@ -54,9 +84,7 @@ export async function invokeAction<T>(actionName: string, params?: T) {
   const ctx = setupContext();
   bindParams(ctx, params);
 
-  const controller: ServerlessController = await ctx.get(
-    'controllers.serverless',
-  );
+  const controller = await getController(ctx, ServerlessController);
 
   const actionMap = getActionMapping(ServerlessController.prototype);
   return await invokeMethod(controller, actionMap[actionName], ctx);
@@ -72,13 +100,14 @@ export function invokeActionSync<T>(actionName: string, params?: T) {
   const ctx = setupContext();
   bindParams(ctx, params);
 
-  const controller: ServerlessController = ctx.getSync(
-    'controllers.serverless',
-  );
+  const controller = getController(ctx, ServerlessController);
+  if (isPromiseLike(controller)) {
+    throw new Error(`Action ${actionName} cannot be invoked synchronously`);
+  }
 
   const actionMap = getActionMapping(ServerlessController.prototype);
   const result = invokeMethod(controller, actionMap[actionName], ctx);
-  if (isPromise(result)) {
+  if (isPromiseLike(result)) {
     throw new Error(`Action ${actionName} cannot be invoked synchronously`);
   }
   return result;

@@ -1,9 +1,10 @@
 import {inject} from '@loopback/context';
-import {action} from '../decorators/action';
+import {action, serverless} from '../decorators/action';
 
 /**
  * A demo controller for serverless actions
  */
+@serverless()
 export class ServerlessController {
   /**
    * The controller can be optionally instantiated with dependency injections

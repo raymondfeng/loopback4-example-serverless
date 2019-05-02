@@ -1,4 +1,5 @@
-import {MethodDecoratorFactory, MetadataInspector} from '@loopback/metadata';
+import {MetadataInspector, MethodDecoratorFactory} from '@loopback/metadata';
+import {bind, BindingSpec} from '@loopback/context';
 
 const ACTION_KEY = 'serverless:action';
 
@@ -8,6 +9,22 @@ const ACTION_KEY = 'serverless:action';
  */
 export function action(name?: string) {
   return MethodDecoratorFactory.createDecorator<string>(ACTION_KEY, name || '');
+}
+
+/**
+ * `@serverless` decorator
+ * @param specs
+ */
+export function serverless(...specs: BindingSpec[]) {
+  return bind(
+    {tags: ['serverless']},
+    {
+      tags: {
+        namespace: 'controllers.serverless',
+      },
+    },
+    ...specs,
+  );
 }
 
 /**

@@ -95,7 +95,7 @@ export async function invokeAction<T>(actionName: string, params?: T) {
  * @param actionName Action name
  * @param params Parameter object with name/value pairs
  */
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function invokeActionSync<T>(actionName: string, params?: T) {
   const ctx = setupContext();
   bindParams(ctx, params);

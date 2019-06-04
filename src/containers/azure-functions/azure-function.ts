@@ -1,4 +1,4 @@
 import {Context} from './types';
 
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export = function main(context: Context, ...optionalParams: any[]) {};

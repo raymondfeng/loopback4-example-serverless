@@ -8,7 +8,7 @@ const ACTION_KEY = 'serverless:action';
  * @param name The optional action name, default to the method name
  */
 export function action(name?: string) {
-  return MethodDecoratorFactory.createDecorator<string>(ACTION_KEY, name || '');
+  return MethodDecoratorFactory.createDecorator<string>(ACTION_KEY, name ?? '');
 }
 
 /**
@@ -33,7 +33,7 @@ export function serverless(...specs: BindingSpec[]) {
  */
 export function getActionMapping(target: Object) {
   const metadata =
-    MetadataInspector.getAllMethodMetadata<string>(ACTION_KEY, target) || {};
+    MetadataInspector.getAllMethodMetadata<string>(ACTION_KEY, target) ?? {};
   const actions: {[name: string]: string} = {};
   for (const i in metadata) {
     actions[metadata[i] || i] = i;

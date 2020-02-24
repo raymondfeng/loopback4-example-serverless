@@ -41,7 +41,7 @@ export class ServerlessController {
    */
   @action('greet')
   async helloAsync(@inject('id') id: number) {
-    const userName = (await getUserNameById(id)) || 'world';
+    const userName = (await getUserNameById(id)) ?? 'world';
     return `Hello, ${userName}!`;
   }
 }

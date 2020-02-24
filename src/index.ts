@@ -56,14 +56,14 @@ function bindParams(ctx: Context, params?: Parameters) {
     for (const p in params) {
       ctx.bind(p).to(params[p]);
     }
-    if (params && params.__ow_method) {
+    if (params?.__ow_method) {
       bindWebParams(ctx, params as WebParameters);
     }
   }
 }
 
 function bindWebParams(ctx: Context, params?: WebParameters) {
-  if (params && params.__ow_method) {
+  if (params?.__ow_method) {
     ctx.bind('web.method').to(params.__ow_method);
     ctx.bind('web.path').to(params.__ow_path);
     ctx.bind('web.body').to(params.__ow_body);
@@ -87,7 +87,7 @@ export async function invokeAction<T>(actionName: string, params?: T) {
   const controller = await getController(ctx, ServerlessController);
 
   const actionMap = getActionMapping(ServerlessController.prototype);
-  return await invokeMethod(controller, actionMap[actionName], ctx);
+  return invokeMethod(controller, actionMap[actionName], ctx);
 }
 
 /**
